@@ -1,0 +1,105 @@
+div#sidebar {
+    position: fixed;
+    width: 160px;
+    height: 100%;
+    z-index: 20;
+    background-color: #343434;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.4);
+    transition: all 1s;
+}
+div#sidebar ul, div#sidebar li {
+    margin: 0;
+    padding: 0;
+}
+div#sidebar, div#head {
+    left: 0px;
+    top: 0px;
+}
+div#head {
+    padding: 20px 0 30px;
+    text-align: center;
+    background-color: #28282E;
+    color: #fff;
+}
+div#avatar {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto;
+    border: 2px #fff solid;
+    border-radius: 50%;
+    overflow: hidden;
+    background: url("/blog/img/avatar/skyside.png");
+}
+p#size_small {
+    display: block;
+    width: 90%;
+    margin: -10px auto 0;
+    font-size: 13px;
+    font-family: consolas, Microsoft YaHei;
+    color: rgba(255, 255, 255, .6);
+}
+div#body, div#head, div#avatar {
+    position: relative;
+}
+div#body li {
+    font-size: 14px;
+    overflow: hidden;
+    list-style-type: none;
+    transition: all 0.3s;
+}
+ul#nav>li {
+    border-bottom: 1px solid rgba(124, 117, 117, .2);
+}
+#body a {
+    padding: 12px;
+    width: 100%;
+    display: inline-block;
+    font-size: 14px;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+li.active, ul#nav li:hover {
+    background-color: #FF5E53;
+    padding-left: 7px;
+}
+#sidebar i {
+    color: #fff;
+    display: inline-block;
+    margin: 0 20px;
+}
+ul.sublist.hide {
+    height: 0 !important;
+}
+.menu_part {
+    position: absolute;
+    left: 160px;
+    width: 120px;
+    height: 100%;
+    top: 0;
+    transition: all 1s;
+}
+.menu_part.fold:not(:hover) {
+    opacity: 0;
+}
+.menu {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    top: 50%;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 2px 0 6px rgba(0, 0, 0, 0.4);
+    background-color: #343434;
+    transition: all 1s;
+}
+#sidebar .icon-menu {
+    transition: all 0.3s;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    margin: 0;
+}
+#sidebar .icon-menu:hover {
+    transform: rotate(180deg);
+}

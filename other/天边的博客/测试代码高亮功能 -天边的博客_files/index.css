@@ -1,0 +1,59 @@
+/*首页头图相关CSS部分*/
+div#container div#pic{
+	height: 300px;
+	overflow: hidden;
+	border-radius: 5px;
+}
+div#container div#pic img{
+	transition: opacity 1s;
+	width: 100%;
+}
+div#container div#pic img.hide{
+	opacity: 0;
+}
+div#container a#switch{
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	right: 0;
+	top: 212px;
+	color:#fff;
+	font-size: 12px;
+	padding:7px;
+	margin:40px 20px;
+	z-index: 10;
+	background-color:rgba(0,0,0,0.4);
+	border-radius: 5px;
+	transition: all 1s;
+}
+div#container div#pic:hover a#switch{
+    opacity: 1;
+}
+div#container i.icon-loop{
+	display: inline-block;
+	margin: 0 6px;
+	font-size: 12px;
+}
+div#container a#switch:hover{
+	background-color:rgba(0,0,0,0.6);
+}
+@keyframes rotate{
+	from{
+		transform: rotate(0deg);
+	}
+	to{
+		transform: rotate(360deg);
+	}
+}
+@-webkit-keyframes rotate{
+	from{
+		transform: rotate(0deg);
+	}
+	to{
+		transform: rotate(360deg);
+	}
+}
+div#container a#switch:hover>i{
+	-webkit-animation:rotate 1.5s infinite linear;
+	animation:rotate 1.5s infinite linear;
+}

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)http://localhost/blog/feedback.php -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <link rel="stylesheet" href="./留言板--天边的博客_files/base.css">
+    <link rel="stylesheet" href="./留言板--天边的博客_files/sidebar.css">
+<style type="text/css" adt="123"></style><script>//console.log('a')
+</script><script>doAdblock();
+function doAdblock(){
+    (function() {
+        function A() {}
+        A.prototype = {
+            rules: {
+                'pps_pps': {
+                    'find': /^http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/pps_flvplay_s\.swf/,
+                    'replace': 'http://swf.adtchrome.com/pps_20140420.swf'
+                },
+                '17173_in':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFile(Customer)?\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173_in_20150522.swf"
+                },
+                '17173_out':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFileFirstpage\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173_out_20150522.swf"
+                },
+                '17173_live':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream(_firstpage)?\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173_stream_20150522.swf"
+                },
+                '17173_live_out':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream_(custom)?Out\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173.out.Live.swf"
+                }
+            },
+            _done: null,
+            get done() {
+                if(!this._done) {
+                    this._done = new Array();
+                }
+                return this._done;
+            },
+            addAnimations: function() {
+                var style = document.createElement('style');
+                style.type = 'text/css';
+                style.innerHTML = 'object,embed{\
+                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;\
+                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;\
+                -o-animation-duration:.001s;-o-animation-name:playerInserted;\
+                animation-duration:.001s;animation-name:playerInserted;}\
+                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}';
+                document.getElementsByTagName('head')[0].appendChild(style);
+            },
+            animationsHandler: function(e) {
+                if(e.animationName === 'playerInserted') {
+                    this.replace(e.target);
+                }
+            },
+            replace: function(elem) {
+                if (/http:\/\/v.youku.com\/v_show\/.*/.test(window.location.href)){
+                    var tag = document.getElementById("playerBox").getAttribute("player")
+                    if (tag == "adt"){
+                        console.log("adt adv")
+                        return;
+                    }
+                }
+                if(this.done.indexOf(elem) != -1) return;
+                this.done.push(elem);
+                var player = elem.data || elem.src;
+                if(!player) return;
+                var i, find, replace = false;
+                for(i in this.rules) {
+                    find = this.rules[i]['find'];
+                    if(find.test(player)) {
+                        replace = this.rules[i]['replace'];
+                        if('function' === typeof this.rules[i]['preHandle']) {
+                            this.rules[i]['preHandle'].bind(this, elem, find, replace, player)();
+                        }else{
+                            this.reallyReplace.bind(this, elem, find, replace)();
+                        }
+                        break;
+                    }
+                }
+            },
+            reallyReplace: function(elem, find, replace) {
+                elem.data && (elem.data = elem.data.replace(find, replace)) || elem.src && ((elem.src = elem.src.replace(find, replace)) && (elem.style.display = 'block'));
+                var b = elem.querySelector("param[name='movie']");
+                this.reloadPlugin(elem);
+            },
+            reloadPlugin: function(elem) {
+                var nextSibling = elem.nextSibling;
+                var parentNode = elem.parentNode;
+                parentNode.removeChild(elem);
+                var newElem = elem.cloneNode(true);
+                this.done.push(newElem);
+                if(nextSibling) {
+                    parentNode.insertBefore(newElem, nextSibling);
+                } else {
+                    parentNode.appendChild(newElem);
+                }
+            },
+            init: function() {
+                var handler = this.animationsHandler.bind(this);
+                document.body.addEventListener('webkitAnimationStart', handler, false);
+                document.body.addEventListener('msAnimationStart', handler, false);
+                document.body.addEventListener('oAnimationStart', handler, false);
+                document.body.addEventListener('animationstart', handler, false);
+                this.addAnimations();
+            }
+        };
+        new A().init();
+    })();
+}
+// 20140730
+(function cnbeta() {
+    if (document.URL.indexOf('cnbeta.com') >= 0) {
+        var elms = document.body.querySelectorAll("p>embed");
+        Array.prototype.forEach.call(elms, function(elm) {
+            elm.style.marginLeft = "0px";
+        });
+    }
+})();
+//baidu
+if(document.URL.indexOf('www.baidu.com') >= 0){
+    if(document && document.getElementsByTagName && document.getElementById && document.body){
+        var aa = function(){
+            var all = document.body.querySelectorAll("#content_left div,#content_left table");
+            for(var i = 0; i < all.length; i++){
+                if(/display:\s?(table|block)\s!important/.test(all[i].getAttribute("style"))){all[i].style.display= "none";all[i].style.visibility='hidden';}
+            }
+            all = document.body.querySelectorAll('.result.c-container[id="1"]');
+            //if(all.length == 1) return;
+            for(var i = 0; i < all.length; i++){
+                if(all[i].innerHTML && all[i].innerHTML.indexOf('广告')>-1){
+                    all[i].style.display= "none";all[i].style.visibility='hidden';
+                }
+            }
+        }
+        aa();
+        document.getElementById('wrapper_wrapper').addEventListener('DOMSubtreeModified',aa)
+    };
+}
+// 20140922
+(function kill_360() {
+    if (document.URL.indexOf('so.com') >= 0) {
+        document.getElementById("e_idea_pp").style.display = none;
+    }
+})();
+if (document.URL.indexOf("tv.sohu.com") >= 0){
+    if (document.cookie.indexOf("fee_status=true")==-1){document.cookie='fee_status=true'};
+}
+if (document.URL.indexOf("56.com") >= 0){
+    if (document.cookie.indexOf("fee_status=true")==-1){document.cookie='fee_status=true'};
+}
+if (document.URL.indexOf("iqiyi.com") >= 0){
+    if (document.cookie.indexOf("player_forcedType=h5_VOD")==-1){
+        document.cookie='player_forcedType=h5_VOD'
+        if(localStorage.reloadTime && Date.now() - parseInt(localStorage.reloadTime)<60000){
+            console.log('no reload')
+        }else{
+            location.reload()
+            localStorage.reloadTime = Date.now();
+        }
+    }
+}
+</script><style type="text/css">object,embed{                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;                -o-animation-duration:.001s;-o-animation-name:playerInserted;                animation-duration:.001s;animation-name:playerInserted;}                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}</style><script>doAdblock();
+function doAdblock(){
+    (function() {
+        function A() {}
+        A.prototype = {
+            rules: {
+                /*youku_loader: {
+                 find: /^http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?[^\.]*\.swf/,
+                 replace: "http://2016.adtchrome.com/loader.swf"
+                 },
+                 youku_player: {
+                 find: /^http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/(q?player[^\.]*|\w{13})\.swf/,
+                 replace: "http://2016.adtchrome.com/player.swf"
+                 },*/
+                'pps_pps': {
+                    'find': /^http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/pps_flvplay_s\.swf/,
+                    'replace': 'http://swf.adtchrome.com/pps_20140420.swf'
+                },
+                /*'iqiyi_1': {
+                 'find': /^http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/.+\.swf$/,
+                 'replace': 'http://swf.adtchrome.com/iqiyi_20140624.swf'
+                 },
+                 'iqiyi_2': {
+                 'find': /^http:\/\/www\.iqiyi\.com\/common\/flashplayer\/\d+\/.+\.swf$/,
+                 'replace': 'http://swf.adtchrome.com/iqiyi_20140624.swf'
+                 },*/
+                'ku6': {
+                    'find': /^http:\/\/player\.ku6cdn\.com\/default\/.*\/\d+\/(v|player|loader)\.swf/,
+                    'replace': 'http://swf.adtchrome.com/ku6_20140420.swf'
+                },
+                'ku6_topic': {
+                    'find': /^http:\/\/player\.ku6\.com\/inside\/(.*)\/v\.swf/,
+                    'replace': 'http://swf.adtchrome.com/ku6_20140420.swf?vid=$1'
+                },
+                /*'sohu': {
+                    'find':/http:\/\/(tv\.sohu\.com\/upload\/swf\/(?!(ap|56)).*\d+|(\d+\.){3}\d+(:\d+)?\/(web|test)player)\/(Main|PlayerShell)[^\.]*\.swf/,
+                    'replace': "http://adtchrome.b0.upaiyun.com/sohu_live.swf"
+                },
+                 'letv': {
+                 'find': /^http:\/\/player\.letvcdn\.com\/.*p\/.*\/newplayer\/LetvPlayer\.swf/,
+                 'replace': 'http://swf.adtchrome.com/20150110_letv.swf'
+                 },
+                 'letv_topic': {
+                 'find': /^http:\/\/player\.hz\.letv\.com\/hzplayer\.swf\/v_list=zhuanti/,
+                 'replace': 'http://swf.adtchrome.com/20150110_letv.swf'
+                 },
+                 'letv_duowan': {
+                 'find': /^http:\/\/assets\.dwstatic\.com\/video\/vpp\.swf/,
+                 'replace': 'http://yuntv.letv.com/bcloud.swf'
+                 },*/
+                '17173_in':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFile(Customer)?\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173_in_20150522.swf"
+                },
+                '17173_out':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFileFirstpage\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173_out_20150522.swf"
+                },
+                '17173_live':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream(_firstpage)?\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173_stream_20150522.swf"
+                },
+                '17173_live_out':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream_(custom)?Out\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173.out.Live.swf"
+                }
+            },
+            _done: null,
+            get done() {
+                if(!this._done) {
+                    this._done = new Array();
+                }
+                return this._done;
+            },
+            addAnimations: function() {
+                var style = document.createElement('style');
+                style.type = 'text/css';
+                style.innerHTML = 'object,embed{\
+                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;\
+                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;\
+                -o-animation-duration:.001s;-o-animation-name:playerInserted;\
+                animation-duration:.001s;animation-name:playerInserted;}\
+                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}';
+                document.getElementsByTagName('head')[0].appendChild(style);
+            },
+            animationsHandler: function(e) {
+                if(e.animationName === 'playerInserted') {
+                    this.replace(e.target);
+                }
+            },
+            replace: function(elem) {
+                if (/http:\/\/v.youku.com\/v_show\/.*/.test(window.location.href)){
+                    var tag = document.getElementById("playerBox").getAttribute("player")
+                    if (tag == "adt"){
+                        console.log("adt adv")
+                        return;
+                    }
+                }
+                if(this.done.indexOf(elem) != -1) return;
+                this.done.push(elem);
+                var player = elem.data || elem.src;
+                if(!player) return;
+                var i, find, replace = false;
+                for(i in this.rules) {
+                    find = this.rules[i]['find'];
+                    if(find.test(player)) {
+                        replace = this.rules[i]['replace'];
+                        if('function' === typeof this.rules[i]['preHandle']) {
+                            this.rules[i]['preHandle'].bind(this, elem, find, replace, player)();
+                        }else{
+                            this.reallyReplace.bind(this, elem, find, replace)();
+                        }
+                        break;
+                    }
+                }
+            },
+            reallyReplace: function(elem, find, replace) {
+                elem.data && (elem.data = elem.data.replace(find, replace)) || elem.src && ((elem.src = elem.src.replace(find, replace)) && (elem.style.display = 'block'));
+                var b = elem.querySelector("param[name='movie']");
+                this.reloadPlugin(elem);
+            },
+            reloadPlugin: function(elem) {
+                var nextSibling = elem.nextSibling;
+                var parentNode = elem.parentNode;
+                parentNode.removeChild(elem);
+                var newElem = elem.cloneNode(true);
+                this.done.push(newElem);
+                if(nextSibling) {
+                    parentNode.insertBefore(newElem, nextSibling);
+                } else {
+                    parentNode.appendChild(newElem);
+                }
+            },
+            init: function() {
+                var handler = this.animationsHandler.bind(this);
+                document.body.addEventListener('webkitAnimationStart', handler, false);
+                document.body.addEventListener('msAnimationStart', handler, false);
+                document.body.addEventListener('oAnimationStart', handler, false);
+                document.body.addEventListener('animationstart', handler, false);
+                this.addAnimations();
+            }
+        };
+        new A().init();
+    })();
+}
+// 20140730
+(function cnbeta() {
+    if (document.URL.indexOf('cnbeta.com') >= 0) {
+        var elms = document.body.querySelectorAll("p>embed");
+        Array.prototype.forEach.call(elms, function(elm) {
+            elm.style.marginLeft = "0px";
+        });
+    }
+})();
+//baidu
+//display: inline !important; visibility: visible !important;
+//display:block !important;visibility:visible !important; display:block !important;visibility:visible !important
+if(document.URL.indexOf('www.baidu.com') >= 0){
+    if(document && document.getElementsByTagName && document.getElementById && document.body){
+        var a = function(){
+            Array.prototype.forEach.call(document.body.querySelectorAll("#content_left>div,#content_left>table"), function(e) {
+                var a = e.getAttribute("style");
+                if(a && /display:(table|block)\s!important/.test(a)){
+                    e.parentNode.removeChild(e)
+                }
+            });
+        };
+        a();
+        var MutationObserver = window.MutationObserver ||  window.WebKitMutationObserver || window.MozMutationObserver;
+        var callback = function(records) {
+            records.map(function(record) {
+                console.log('block baidu')
+                a();
+            });
+        };
+        var mo = new MutationObserver(callback);
+        mo.observe(document.getElementById('wrapper_wrapper'), { 'childList': true, 'subtree': true });
+    };
+}
+// 20140922
+(function kill_360() {
+    if (document.URL.indexOf('so.com') >= 0) {
+        document.getElementById("e_idea_pp").style.display = none;
+    }
+})();
+//解决腾讯视频列表点击无效
+if(document.URL.indexOf("v.qq.com") >= 0){
+    if (document.getElementById("mod_videolist")){
+        var listBox = document.getElementById("mod_videolist")
+        var list = listBox.getElementsByClassName("list_item")
+        for (i = 0;i < list.length;i++){
+            list[i].addEventListener("click", function() {
+                var url = this.getElementsByTagName("a")[0]
+                url = url.getAttribute("href")
+                var host = window.location.href
+                url = host.replace(/cover\/.*/,url)
+                window.location.href = url
+            })
+        }
+    }
+}
+if (document.URL.indexOf("tv.sohu.com") >= 0){
+    if (document.cookie.indexOf("fee_status=true")==-1){document.cookie='fee_status=true'};
+}
+if (document.URL.indexOf("56.com") >= 0){
+    if (document.cookie.indexOf("fee_status=true")==-1){document.cookie='fee_status=true'};
+}
+if(/v\.youku\.com\/v_show\/id/.test(document.URL)){
+    var mp = document.getElementById('movie_player');
+    if(mp){
+        mp.style.height = '92%';
+    }else{
+        setTimeout(function(){
+            document.getElementById('movie_player').style.height = '90%';
+        },500)
+    }
+}
+</script><style type="text/css">object,embed{                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;                -o-animation-duration:.001s;-o-animation-name:playerInserted;                animation-duration:.001s;animation-name:playerInserted;}                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}</style></head>
+<body>
+
+
+    
+    <link rel="stylesheet" href="./留言板--天边的博客_files/base.css">
+    <link rel="stylesheet" href="./留言板--天边的博客_files/sidebar.css">
+
+
+    <div id="sidebar">
+        <div id="head">
+            <div id="avatar"></div>
+            <p>天边的博客</p>
+            <p id="size_small">Sing it for the people like us.</p>
+        </div>
+        <div id="body">
+            <ul id="nav">
+                <li><a href="http://localhost/blog/index.php"><i class="icon-home3"></i>首页</a></li>
+                <li>
+                    <a href="http://localhost/blog/sort.php"><i class="icon-code"></i>分类</a>
+                </li>
+                <li>
+                    <a href="http://localhost/blog/lab.php"><i class="icon-camera"></i>作品集</a>
+                </li>
+                <li class="active">
+                    <a href="http://localhost/blog/feedback.php"><i class="icon-file-text"></i>留言板</a>
+                </li>
+                <li>
+                    <a href="http://localhost/blog/about.php"><i class="icon-account_circle"></i>关于</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="./留言板--天边的博客_files/jquery.js"></script>
+    <script>
+    jQuery(document).ready(function($) {
+        $path= document.location.pathname;
+        if($("#nav a[href*='"+$path+"']").length>0&&$path!="/blog/"){
+            $("#nav li").removeClass("active");
+            $("#nav a[href*='"+$path+"']").parent().addClass('active');
+        }else{
+            $("#nav li:first-child").addClass('active');
+        }
+        $("a[href*='about.php']").on('click', function(event) {
+            event.preventDefault();
+            alert("制作中 = v =");
+            event.stopPropagation();
+        });
+    });
+    </script>
+
+
+
+    <div id="sidebar">
+        <div id="head">
+            <div id="avatar"></div>
+            <p>天边的博客</p>
+            <p id="size_small">Sing it for the people like us.</p>
+        </div>
+        <div id="body">
+            <ul id="nav">
+                <li><a href="http://localhost/blog/index.php"><i class="icon-home3"></i>首页</a></li>
+                <li>
+                    <a href="http://localhost/blog/sort.php"><i class="icon-code"></i>分类</a>
+                </li>
+                <li>
+                    <a href="http://localhost/blog/lab.php"><i class="icon-camera"></i>作品集</a>
+                </li>
+                <li class="active">
+                    <a href="http://localhost/blog/feedback.php"><i class="icon-file-text"></i>留言板</a>
+                </li>
+                <li>
+                    <a href="http://localhost/blog/about.php"><i class="icon-account_circle"></i>关于</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="./留言板--天边的博客_files/jquery.js"></script>
+    <script>
+    jQuery(document).ready(function($) {
+        $path= document.location.pathname;
+        if($("#nav a[href*='"+$path+"']").length>0&&$path!="/blog/"){
+            $("#nav li").removeClass("active");
+            $("#nav a[href*='"+$path+"']").parent().addClass('active');
+        }else{
+            $("#nav li:first-child").addClass('active');
+        }
+        $("a[href*='about.php']").on('click', function(event) {
+            event.preventDefault();
+            alert("制作中 = v =");
+            event.stopPropagation();
+        });
+    });
+    </script>
+
+
+
+
+
+    
+    <meta name="keywords " content="天边,个人博客,前端开发,生活感悟,web开发,blog,html,css,js,php">
+<meta name="description" content="天边的个人博客,前端开发分享与生活交流，利用html,css,js,php等工具将想法创造成现实。">
+    <title>留言板--天边的博客</title>
+    <link rel="stylesheet" href="./留言板--天边的博客_files/article.css">
+
+
+    <div id="comment">
+        <h1>留言</h1>
+        <form id="comment_form">
+            <p id="tips">
+                &lt;(￣v￣)/点击头像<br>可以更换头像</p>
+            <div class="pic">
+             <div class="mask"><i class="icon-loop"></i></div><img src="./留言板--天边的博客_files/5.jpg" name="avatar" id="photo"></div>
+            <input type="text" id="nickname" name="nickname" placeholder="昵称">
+            <textarea placeholder="留言..." name="content"></textarea>
+            <div id="toolbar"><i class="icon-sentiment_satisfied" id="face"></i><div id="emoji_list"><img class="emoji" src="./留言板--天边的博客_files/smile.png" data-emoji="smile"><img class="emoji" src="./留言板--天边的博客_files/soso.png" data-emoji="soso"><img class="emoji" src="./留言板--天边的博客_files/grin.png" data-emoji="grin"><img class="emoji" src="./留言板--天边的博客_files/happy.png" data-emoji="happy"><img class="emoji" src="./留言板--天边的博客_files/muse.png" data-emoji="muse"><img class="emoji" src="./留言板--天边的博客_files/shock.png" data-emoji="shock"><img class="emoji" src="./留言板--天边的博客_files/cold.png" data-emoji="cold"><img class="emoji" src="./留言板--天边的博客_files/careless.png" data-emoji="careless"><img class="emoji" src="./留言板--天边的博客_files/cry.png" data-emoji="cry"><img class="emoji" src="./留言板--天边的博客_files/eye.png" data-emoji="eye"><img class="emoji" src="./留言板--天边的博客_files/cool.png" data-emoji="cool"><img class="emoji" src="./留言板--天边的博客_files/fear.png" data-emoji="fear"><img class="emoji" src="./留言板--天边的博客_files/sweat.png" data-emoji="sweat"><img class="emoji" src="./留言板--天边的博客_files/xx.png" data-emoji="xx"><img class="emoji" src="./留言板--天边的博客_files/lol.png" data-emoji="lol"></div></div>
+            <div id="emoji"></div>
+            <input type="hidden" name="pic" value="/blog/img/avatar/5.jpg">
+            <input type="hidden" name="article_id" value="0">
+            <input type="hidden" id="comment_parent" name="comment_parent">
+            <input type="hidden" name="comment_html" id="comment_html">
+            <button type="submit">发表</button>
+            <div id="result" class=""><i class="icon-cancel"></i>昵称不能为空！留言不能为空！</div>
+        </form>
+        <div id="comment_list"><div class="user_comment " id="comment293" name="comment293"><div class="pic"><img src="./留言板--天边的博客_files/skyside.png" name="avatar"></div><div class="wrapper"><span>天边</span><span class="author">博主</span><span class="time">2016-08-16 23:24:44</span><p class="comment_content"><img class="emoji" src="./留言板--天边的博客_files/cool.png">我是天边，到此一游~<img class="emoji" src="./留言板--天边的博客_files/happy.png"></p></div><div class="comment_actions show"><a href="http://localhost/blog/feedback.php#comment_form" class="call" data-id="293" data-user="天边">@TA</a><a href="http://localhost/blog/feedback.php#comment_form" class="reply" data-id="293" data-user="天边" data-parent="293"><i class="icon-undo"></i>回复</a></div><div class="comment_actions"><p>4#</p></div></div><div class="user_comment " id="comment278" name="comment278"><div class="pic"><img src="./留言板--天边的博客_files/psb3.jpg" name="avatar"></div><div class="wrapper"><span>本帅</span><span class="author">博主</span><span class="time">2016-08-13 18:36:12</span><p class="comment_content">其实冬眠和洛轩都是我本人，哈哈哈~~~</p></div><div class="comment_actions"><a href="http://localhost/blog/feedback.php#comment_form" class="call" data-id="278" data-user="本帅">@TA</a><a href="http://localhost/blog/feedback.php#comment_form" class="reply" data-id="278" data-user="本帅" data-parent="278"><i class="icon-undo"></i>回复</a></div><div class="comment_actions show"><p>3#</p></div></div><div class="user_comment " id="comment269" name="comment269"><div class="pic"><img src="./留言板--天边的博客_files/5.jpg" name="avatar"></div><div class="wrapper"><span>洛轩</span><span class="author">博主</span><span class="time">2016-08-13 01:00:38</span><p class="comment_content"><a href="http://localhost/blog/feedback.php#comment268"><span>@冬眠</span></a>冬眠你好！</p></div><div class="comment_actions"><a href="http://localhost/blog/feedback.php#comment_form" class="call" data-id="269" data-user="洛轩">@TA</a><a href="http://localhost/blog/feedback.php#comment_form" class="reply" data-id="269" data-user="洛轩" data-parent="269"><i class="icon-undo"></i>回复</a></div><div class="comment_actions show"><p>2#</p></div></div><div class="user_comment children" id="comment277" name="comment277"><div class="pic"><img src="./留言板--天边的博客_files/3.jpg" name="avatar"></div><div class="wrapper"><span>冬眠</span><span class="author">博主</span><span class="time">2016-08-13 18:35:48</span><p class="comment_content">回复<a href="http://localhost/blog/feedback.php#comment269"><span>@洛轩</span></a>：洛轩你好啊！</p></div><div class="comment_actions"><a href="http://localhost/blog/feedback.php#comment_form" class="call" data-id="277" data-user="冬眠">@TA</a><a href="http://localhost/blog/feedback.php#comment_form" class="reply" data-id="277" data-user="冬眠" data-parent="269"><i class="icon-undo"></i>回复</a></div></div><div class="user_comment " id="comment268" name="comment268"><div class="pic"><img src="./留言板--天边的博客_files/3.jpg" name="avatar"></div><div class="wrapper"><span>冬眠</span><span class="author">博主</span><span class="time">2016-08-13 01:00:19</span><p class="comment_content">冬眠君的第一个留言。</p></div><div class="comment_actions"><a href="http://localhost/blog/feedback.php#comment_form" class="call" data-id="268" data-user="冬眠">@TA</a><a href="http://localhost/blog/feedback.php#comment_form" class="reply" data-id="268" data-user="冬眠" data-parent="268"><i class="icon-undo"></i>回复</a></div><div class="comment_actions show"><p>1#</p></div></div></div>
+        </div>
+        <div id="choose" class=""><div id="choices"><div id="avatar_pics"><img src="./留言板--天边的博客_files/1.jpg"><img src="./留言板--天边的博客_files/2.jpg"><img src="./留言板--天边的博客_files/3.jpg"><img src="./留言板--天边的博客_files/4.jpg"><img src="./留言板--天边的博客_files/5.jpg"><img src="./留言板--天边的博客_files/6.jpg"><img src="./留言板--天边的博客_files/7.jpg"><img src="./留言板--天边的博客_files/psb.gif"><img src="./留言板--天边的博客_files/psb.jpg"><img src="./留言板--天边的博客_files/psb.png"><img src="./留言板--天边的博客_files/psb2.gif"><img src="./留言板--天边的博客_files/psb2.png"><img src="./留言板--天边的博客_files/psb3.jpg"><img src="./留言板--天边的博客_files/skyside.png"></div>
+<div id="button"><div id="true">确认</div></div></div><div id="cancel"><i class="icon-cancel"></i></div></div>
+<div id="big_mask" class=""></div>
+<script src="./留言板--天边的博客_files/article.js"></script>
+
+
+<div id="toTop" style="opacity: 0;"><i class="icon-fold"></i></div></body></html>

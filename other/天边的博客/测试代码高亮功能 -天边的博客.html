@@ -1,0 +1,474 @@
+
+<!-- saved from url=(0054)http://localhost/blog/page/2016/07/code_highlight.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="keywords " content="天边,个人博客,前端开发,生活感悟,web开发,blog,html,css,js,php">
+<meta name="description" content="天边的个人博客,前端开发分享与生活交流，利用html,css,js,php等工具将想法创造成现实。">
+    <title>测试代码高亮功能 -天边的博客</title>
+    <link rel="stylesheet" href="./测试代码高亮功能 -天边的博客_files/index.css">
+    <link rel="stylesheet" href="./测试代码高亮功能 -天边的博客_files/article.css">
+    <script src="./测试代码高亮功能 -天边的博客_files/ueditor.parse.js"></script>
+    <link rel="stylesheet" href="./测试代码高亮功能 -天边的博客_files/shCoreDefault.css">
+    <script src="./测试代码高亮功能 -天边的博客_files/shCore.js"></script>
+<style id="table">
+#content table.noBorderTable td,#content table.noBorderTable th,#content table.noBorderTable caption{border:1px dashed #ddd !important}#content table.sortEnabled tr.firstRow th,#content table.sortEnabled tr.firstRow td{padding-right:20px; background-repeat: no-repeat;background-position: center right; background-image:url(undefinedthemes/default/images/sortable.png);}#content table.sortEnabled tr.firstRow th:hover,#content table.sortEnabled tr.firstRow td:hover{background-color: #EEE;}#content table{margin-bottom:10px;border-collapse:collapse;display:table;}#content td,#content th{ background:white; padding: 5px 10px;border: 1px solid #DDD;}#content caption{border:1px dashed #DDD;border-bottom:0;padding:3px;text-align:center;}#content th{border-top:1px solid #BBB;background:#F7F7F7;}#content table tr.firstRow th{border-top:2px solid #BBB;background:#F7F7F7;}#content tr.ue-table-interlace-color-single td{ background: #fcfcfc; }#content tr.ue-table-interlace-color-double td{ background: #f7faff; }#content td p{margin:0;padding:0;}
+#content table.noBorderTable td,#content table.noBorderTable th,#content table.noBorderTable caption{border:1px dashed #ddd !important}#content table.sortEnabled tr.firstRow th,#content table.sortEnabled tr.firstRow td{padding-right:20px; background-repeat: no-repeat;background-position: center right; background-image:url(undefinedthemes/default/images/sortable.png);}#content table.sortEnabled tr.firstRow th:hover,#content table.sortEnabled tr.firstRow td:hover{background-color: #EEE;}#content table{margin-bottom:10px;border-collapse:collapse;display:table;}#content td,#content th{ background:white; padding: 5px 10px;border: 1px solid #DDD;}#content caption{border:1px dashed #DDD;border-bottom:0;padding:3px;text-align:center;}#content th{border-top:1px solid #BBB;background:#F7F7F7;}#content table tr.firstRow th{border-top:2px solid #BBB;background:#F7F7F7;}#content tr.ue-table-interlace-color-single td{ background: #fcfcfc; }#content tr.ue-table-interlace-color-double td{ background: #f7faff; }#content td p{margin:0;padding:0;}</style><style id="chartsContainerHeight">
+.edui-chart-container { height:300px}
+.edui-chart-container { height:300px}</style><style type="text/css" adt="123"></style><script>//console.log('a')
+</script><script>doAdblock();
+function doAdblock(){
+    (function() {
+        function A() {}
+        A.prototype = {
+            rules: {
+                'pps_pps': {
+                    'find': /^http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/pps_flvplay_s\.swf/,
+                    'replace': 'http://swf.adtchrome.com/pps_20140420.swf'
+                },
+                '17173_in':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFile(Customer)?\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173_in_20150522.swf"
+                },
+                '17173_out':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFileFirstpage\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173_out_20150522.swf"
+                },
+                '17173_live':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream(_firstpage)?\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173_stream_20150522.swf"
+                },
+                '17173_live_out':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream_(custom)?Out\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173.out.Live.swf"
+                }
+            },
+            _done: null,
+            get done() {
+                if(!this._done) {
+                    this._done = new Array();
+                }
+                return this._done;
+            },
+            addAnimations: function() {
+                var style = document.createElement('style');
+                style.type = 'text/css';
+                style.innerHTML = 'object,embed{\
+                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;\
+                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;\
+                -o-animation-duration:.001s;-o-animation-name:playerInserted;\
+                animation-duration:.001s;animation-name:playerInserted;}\
+                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}';
+                document.getElementsByTagName('head')[0].appendChild(style);
+            },
+            animationsHandler: function(e) {
+                if(e.animationName === 'playerInserted') {
+                    this.replace(e.target);
+                }
+            },
+            replace: function(elem) {
+                if (/http:\/\/v.youku.com\/v_show\/.*/.test(window.location.href)){
+                    var tag = document.getElementById("playerBox").getAttribute("player")
+                    if (tag == "adt"){
+                        console.log("adt adv")
+                        return;
+                    }
+                }
+                if(this.done.indexOf(elem) != -1) return;
+                this.done.push(elem);
+                var player = elem.data || elem.src;
+                if(!player) return;
+                var i, find, replace = false;
+                for(i in this.rules) {
+                    find = this.rules[i]['find'];
+                    if(find.test(player)) {
+                        replace = this.rules[i]['replace'];
+                        if('function' === typeof this.rules[i]['preHandle']) {
+                            this.rules[i]['preHandle'].bind(this, elem, find, replace, player)();
+                        }else{
+                            this.reallyReplace.bind(this, elem, find, replace)();
+                        }
+                        break;
+                    }
+                }
+            },
+            reallyReplace: function(elem, find, replace) {
+                elem.data && (elem.data = elem.data.replace(find, replace)) || elem.src && ((elem.src = elem.src.replace(find, replace)) && (elem.style.display = 'block'));
+                var b = elem.querySelector("param[name='movie']");
+                this.reloadPlugin(elem);
+            },
+            reloadPlugin: function(elem) {
+                var nextSibling = elem.nextSibling;
+                var parentNode = elem.parentNode;
+                parentNode.removeChild(elem);
+                var newElem = elem.cloneNode(true);
+                this.done.push(newElem);
+                if(nextSibling) {
+                    parentNode.insertBefore(newElem, nextSibling);
+                } else {
+                    parentNode.appendChild(newElem);
+                }
+            },
+            init: function() {
+                var handler = this.animationsHandler.bind(this);
+                document.body.addEventListener('webkitAnimationStart', handler, false);
+                document.body.addEventListener('msAnimationStart', handler, false);
+                document.body.addEventListener('oAnimationStart', handler, false);
+                document.body.addEventListener('animationstart', handler, false);
+                this.addAnimations();
+            }
+        };
+        new A().init();
+    })();
+}
+// 20140730
+(function cnbeta() {
+    if (document.URL.indexOf('cnbeta.com') >= 0) {
+        var elms = document.body.querySelectorAll("p>embed");
+        Array.prototype.forEach.call(elms, function(elm) {
+            elm.style.marginLeft = "0px";
+        });
+    }
+})();
+//baidu
+if(document.URL.indexOf('www.baidu.com') >= 0){
+    if(document && document.getElementsByTagName && document.getElementById && document.body){
+        var aa = function(){
+            var all = document.body.querySelectorAll("#content_left div,#content_left table");
+            for(var i = 0; i < all.length; i++){
+                if(/display:\s?(table|block)\s!important/.test(all[i].getAttribute("style"))){all[i].style.display= "none";all[i].style.visibility='hidden';}
+            }
+            all = document.body.querySelectorAll('.result.c-container[id="1"]');
+            //if(all.length == 1) return;
+            for(var i = 0; i < all.length; i++){
+                if(all[i].innerHTML && all[i].innerHTML.indexOf('广告')>-1){
+                    all[i].style.display= "none";all[i].style.visibility='hidden';
+                }
+            }
+        }
+        aa();
+        document.getElementById('wrapper_wrapper').addEventListener('DOMSubtreeModified',aa)
+    };
+}
+// 20140922
+(function kill_360() {
+    if (document.URL.indexOf('so.com') >= 0) {
+        document.getElementById("e_idea_pp").style.display = none;
+    }
+})();
+if (document.URL.indexOf("tv.sohu.com") >= 0){
+    if (document.cookie.indexOf("fee_status=true")==-1){document.cookie='fee_status=true'};
+}
+if (document.URL.indexOf("56.com") >= 0){
+    if (document.cookie.indexOf("fee_status=true")==-1){document.cookie='fee_status=true'};
+}
+if (document.URL.indexOf("iqiyi.com") >= 0){
+    if (document.cookie.indexOf("player_forcedType=h5_VOD")==-1){
+        document.cookie='player_forcedType=h5_VOD'
+        if(localStorage.reloadTime && Date.now() - parseInt(localStorage.reloadTime)<60000){
+            console.log('no reload')
+        }else{
+            location.reload()
+            localStorage.reloadTime = Date.now();
+        }
+    }
+}
+</script><style type="text/css">object,embed{                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;                -o-animation-duration:.001s;-o-animation-name:playerInserted;                animation-duration:.001s;animation-name:playerInserted;}                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}</style><script>doAdblock();
+function doAdblock(){
+    (function() {
+        function A() {}
+        A.prototype = {
+            rules: {
+                /*youku_loader: {
+                 find: /^http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/loaders?[^\.]*\.swf/,
+                 replace: "http://2016.adtchrome.com/loader.swf"
+                 },
+                 youku_player: {
+                 find: /^http:\/\/static\.youku\.com(\/v[\d\.]*)?\/v\/swf\/(q?player[^\.]*|\w{13})\.swf/,
+                 replace: "http://2016.adtchrome.com/player.swf"
+                 },*/
+                'pps_pps': {
+                    'find': /^http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/pps_flvplay_s\.swf/,
+                    'replace': 'http://swf.adtchrome.com/pps_20140420.swf'
+                },
+                /*'iqiyi_1': {
+                 'find': /^http:\/\/www\.iqiyi\.com\/player\/cupid\/common\/.+\.swf$/,
+                 'replace': 'http://swf.adtchrome.com/iqiyi_20140624.swf'
+                 },
+                 'iqiyi_2': {
+                 'find': /^http:\/\/www\.iqiyi\.com\/common\/flashplayer\/\d+\/.+\.swf$/,
+                 'replace': 'http://swf.adtchrome.com/iqiyi_20140624.swf'
+                 },*/
+                'ku6': {
+                    'find': /^http:\/\/player\.ku6cdn\.com\/default\/.*\/\d+\/(v|player|loader)\.swf/,
+                    'replace': 'http://swf.adtchrome.com/ku6_20140420.swf'
+                },
+                'ku6_topic': {
+                    'find': /^http:\/\/player\.ku6\.com\/inside\/(.*)\/v\.swf/,
+                    'replace': 'http://swf.adtchrome.com/ku6_20140420.swf?vid=$1'
+                },
+                /*'sohu': {
+                    'find':/http:\/\/(tv\.sohu\.com\/upload\/swf\/(?!(ap|56)).*\d+|(\d+\.){3}\d+(:\d+)?\/(web|test)player)\/(Main|PlayerShell)[^\.]*\.swf/,
+                    'replace': "http://adtchrome.b0.upaiyun.com/sohu_live.swf"
+                },
+                 'letv': {
+                 'find': /^http:\/\/player\.letvcdn\.com\/.*p\/.*\/newplayer\/LetvPlayer\.swf/,
+                 'replace': 'http://swf.adtchrome.com/20150110_letv.swf'
+                 },
+                 'letv_topic': {
+                 'find': /^http:\/\/player\.hz\.letv\.com\/hzplayer\.swf\/v_list=zhuanti/,
+                 'replace': 'http://swf.adtchrome.com/20150110_letv.swf'
+                 },
+                 'letv_duowan': {
+                 'find': /^http:\/\/assets\.dwstatic\.com\/video\/vpp\.swf/,
+                 'replace': 'http://yuntv.letv.com/bcloud.swf'
+                 },*/
+                '17173_in':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFile(Customer)?\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173_in_20150522.swf"
+                },
+                '17173_out':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/PreloaderFileFirstpage\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173_out_20150522.swf"
+                },
+                '17173_live':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream(_firstpage)?\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173_stream_20150522.swf"
+                },
+                '17173_live_out':{
+                    'find':/http:\/\/f\.v\.17173cdn\.com\/(\d+\/)?flash\/Player_stream_(custom)?Out\.swf/,
+                    'replace':"http://swf.adtchrome.com/17173.out.Live.swf"
+                }
+            },
+            _done: null,
+            get done() {
+                if(!this._done) {
+                    this._done = new Array();
+                }
+                return this._done;
+            },
+            addAnimations: function() {
+                var style = document.createElement('style');
+                style.type = 'text/css';
+                style.innerHTML = 'object,embed{\
+                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;\
+                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;\
+                -o-animation-duration:.001s;-o-animation-name:playerInserted;\
+                animation-duration:.001s;animation-name:playerInserted;}\
+                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}\
+                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}';
+                document.getElementsByTagName('head')[0].appendChild(style);
+            },
+            animationsHandler: function(e) {
+                if(e.animationName === 'playerInserted') {
+                    this.replace(e.target);
+                }
+            },
+            replace: function(elem) {
+                if (/http:\/\/v.youku.com\/v_show\/.*/.test(window.location.href)){
+                    var tag = document.getElementById("playerBox").getAttribute("player")
+                    if (tag == "adt"){
+                        console.log("adt adv")
+                        return;
+                    }
+                }
+                if(this.done.indexOf(elem) != -1) return;
+                this.done.push(elem);
+                var player = elem.data || elem.src;
+                if(!player) return;
+                var i, find, replace = false;
+                for(i in this.rules) {
+                    find = this.rules[i]['find'];
+                    if(find.test(player)) {
+                        replace = this.rules[i]['replace'];
+                        if('function' === typeof this.rules[i]['preHandle']) {
+                            this.rules[i]['preHandle'].bind(this, elem, find, replace, player)();
+                        }else{
+                            this.reallyReplace.bind(this, elem, find, replace)();
+                        }
+                        break;
+                    }
+                }
+            },
+            reallyReplace: function(elem, find, replace) {
+                elem.data && (elem.data = elem.data.replace(find, replace)) || elem.src && ((elem.src = elem.src.replace(find, replace)) && (elem.style.display = 'block'));
+                var b = elem.querySelector("param[name='movie']");
+                this.reloadPlugin(elem);
+            },
+            reloadPlugin: function(elem) {
+                var nextSibling = elem.nextSibling;
+                var parentNode = elem.parentNode;
+                parentNode.removeChild(elem);
+                var newElem = elem.cloneNode(true);
+                this.done.push(newElem);
+                if(nextSibling) {
+                    parentNode.insertBefore(newElem, nextSibling);
+                } else {
+                    parentNode.appendChild(newElem);
+                }
+            },
+            init: function() {
+                var handler = this.animationsHandler.bind(this);
+                document.body.addEventListener('webkitAnimationStart', handler, false);
+                document.body.addEventListener('msAnimationStart', handler, false);
+                document.body.addEventListener('oAnimationStart', handler, false);
+                document.body.addEventListener('animationstart', handler, false);
+                this.addAnimations();
+            }
+        };
+        new A().init();
+    })();
+}
+// 20140730
+(function cnbeta() {
+    if (document.URL.indexOf('cnbeta.com') >= 0) {
+        var elms = document.body.querySelectorAll("p>embed");
+        Array.prototype.forEach.call(elms, function(elm) {
+            elm.style.marginLeft = "0px";
+        });
+    }
+})();
+//baidu
+//display: inline !important; visibility: visible !important;
+//display:block !important;visibility:visible !important; display:block !important;visibility:visible !important
+if(document.URL.indexOf('www.baidu.com') >= 0){
+    if(document && document.getElementsByTagName && document.getElementById && document.body){
+        var a = function(){
+            Array.prototype.forEach.call(document.body.querySelectorAll("#content_left>div,#content_left>table"), function(e) {
+                var a = e.getAttribute("style");
+                if(a && /display:(table|block)\s!important/.test(a)){
+                    e.parentNode.removeChild(e)
+                }
+            });
+        };
+        a();
+        var MutationObserver = window.MutationObserver ||  window.WebKitMutationObserver || window.MozMutationObserver;
+        var callback = function(records) {
+            records.map(function(record) {
+                console.log('block baidu')
+                a();
+            });
+        };
+        var mo = new MutationObserver(callback);
+        mo.observe(document.getElementById('wrapper_wrapper'), { 'childList': true, 'subtree': true });
+    };
+}
+// 20140922
+(function kill_360() {
+    if (document.URL.indexOf('so.com') >= 0) {
+        document.getElementById("e_idea_pp").style.display = none;
+    }
+})();
+//解决腾讯视频列表点击无效
+if(document.URL.indexOf("v.qq.com") >= 0){
+    if (document.getElementById("mod_videolist")){
+        var listBox = document.getElementById("mod_videolist")
+        var list = listBox.getElementsByClassName("list_item")
+        for (i = 0;i < list.length;i++){
+            list[i].addEventListener("click", function() {
+                var url = this.getElementsByTagName("a")[0]
+                url = url.getAttribute("href")
+                var host = window.location.href
+                url = host.replace(/cover\/.*/,url)
+                window.location.href = url
+            })
+        }
+    }
+}
+if (document.URL.indexOf("tv.sohu.com") >= 0){
+    if (document.cookie.indexOf("fee_status=true")==-1){document.cookie='fee_status=true'};
+}
+if (document.URL.indexOf("56.com") >= 0){
+    if (document.cookie.indexOf("fee_status=true")==-1){document.cookie='fee_status=true'};
+}
+if(/v\.youku\.com\/v_show\/id/.test(document.URL)){
+    var mp = document.getElementById('movie_player');
+    if(mp){
+        mp.style.height = '92%';
+    }else{
+        setTimeout(function(){
+            document.getElementById('movie_player').style.height = '90%';
+        },500)
+    }
+}
+</script><style type="text/css">object,embed{                -webkit-animation-duration:.001s;-webkit-animation-name:playerInserted;                -ms-animation-duration:.001s;-ms-animation-name:playerInserted;                -o-animation-duration:.001s;-o-animation-name:playerInserted;                animation-duration:.001s;animation-name:playerInserted;}                @-webkit-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-ms-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @-o-keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}                @keyframes playerInserted{from{opacity:0.99;}to{opacity:1;}}</style></head>
+<body>
+
+
+    
+    <link rel="stylesheet" href="./测试代码高亮功能 -天边的博客_files/base.css">
+    <link rel="stylesheet" href="./测试代码高亮功能 -天边的博客_files/sidebar.css">
+
+
+    <div id="sidebar">
+        <div id="head">
+            <div id="avatar"></div>
+            <p>天边的博客</p>
+            <p id="size_small">Sing it for the people like us.</p>
+        </div>
+        <div id="body">
+            <ul id="nav">
+                <li class="active"><a href="http://localhost/blog/index.php"><i class="icon-home3"></i>首页</a></li>
+                <li>
+                    <a href="http://localhost/blog/sort.php"><i class="icon-code"></i>分类</a>
+                </li>
+                <li>
+                    <a href="http://localhost/blog/lab.php"><i class="icon-camera"></i>作品集</a>
+                </li>
+                <li>
+                    <a href="http://localhost/blog/feedback.php"><i class="icon-file-text"></i>留言板</a>
+                </li>
+                <li>
+                    <a href="http://localhost/blog/about.php"><i class="icon-account_circle"></i>关于</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="./测试代码高亮功能 -天边的博客_files/jquery.js"></script>
+    <script>
+    jQuery(document).ready(function($) {
+        $path= document.location.pathname;
+        if($("#nav a[href*='"+$path+"']").length>0&&$path!="/blog/"){
+            $("#nav li").removeClass("active");
+            $("#nav a[href*='"+$path+"']").parent().addClass('active');
+        }else{
+            $("#nav li:first-child").addClass('active');
+        }
+        $("a[href*='about.php']").on('click', function(event) {
+            event.preventDefault();
+            alert("制作中 = v =");
+            event.stopPropagation();
+        });
+    });
+    </script>
+
+
+
+    <div id="article">
+    <div id="title"><h1>测试代码高亮功能</h1>
+    <div id="post-info"><a href="http://localhost/blog/page/2016/07/code_highlight.html###"><img src="./测试代码高亮功能 -天边的博客_files/skyside.png">天边</a>
+    <span class="time">2016-07-09 01:38:18</span></div></div><div id="content"><p>&nbsp; 测试CSS，JS，Html代码高亮：</p><table border="0" cellpadding="0" cellspacing="0" class="syntaxhighlighter  css"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="css plain">#container&nbsp;{</code></div><div class="line number2 index1 alt1"><code class="css spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="css keyword">position</code><code class="css plain">:&nbsp;</code><code class="css value">relative</code><code class="css plain">;</code></div><div class="line number3 index2 alt2"><code class="css spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="css keyword">width</code><code class="css plain">:&nbsp;</code><code class="css value">1130px</code><code class="css plain">;</code></div><div class="line number4 index3 alt1"><code class="css spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="css keyword">left</code><code class="css plain">:&nbsp;</code><code class="css value">200px</code><code class="css plain">;</code></div><div class="line number5 index4 alt2"><code class="css spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="css plain">border-radius:&nbsp;</code><code class="css value">5px</code><code class="css plain">;</code></div><div class="line number6 index5 alt1"><code class="css spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="css plain">-webkit-transition:&nbsp;-webkit-transform&nbsp;</code><code class="css value">1</code><code class="css plain">s;</code></div><div class="line number7 index6 alt2"><code class="css spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="css plain">transition:&nbsp;transform&nbsp;</code><code class="css value">1</code><code class="css plain">s</code></div><div class="line number8 index7 alt1"><code class="css plain">}</code></div></div></td></tr></tbody></table><table border="0" cellpadding="0" cellspacing="0" class="syntaxhighlighter  js"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="js plain">jQuery(document).ready(</code><code class="js keyword">function</code><code class="js plain">($)&nbsp;{</code></div><div class="line number2 index1 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">$(</code><code class="js string">"form"</code><code class="js plain">).submit(</code><code class="js keyword">function</code><code class="js plain">(event)&nbsp;{</code></div><div class="line number3 index2 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">event.preventDefault();</code></div><div class="line number4 index3 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">$user=&nbsp;$(</code><code class="js string">"input#user"</code><code class="js plain">).val();</code></div><div class="line number5 index4 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">$pwd=&nbsp;$(</code><code class="js string">"input#pwd"</code><code class="js plain">).val();</code></div><div class="line number6 index5 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">$.ajax({</code></div><div class="line number7 index6 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">url:&nbsp;</code><code class="js string">'control.php?action=login'</code><code class="js plain">,</code></div><div class="line number8 index7 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">type:&nbsp;</code><code class="js string">'post'</code><code class="js plain">,</code></div><div class="line number9 index8 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">data:&nbsp;{user:&nbsp;$user,pwd:&nbsp;$pwd},</code></div><div class="line number10 index9 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">success:</code><code class="js keyword">function</code><code class="js plain">(msg){</code></div><div class="line number11 index10 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js keyword">if</code><code class="js plain">(msg==</code><code class="js string">"登陆成功！"</code><code class="js plain">){</code></div><div class="line number12 index11 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </code><code class="js plain">window.location.href=</code><code class="js string">"index.php"</code><code class="js plain">;</code></div><div class="line number13 index12 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">}</code><code class="js keyword">else</code><code class="js plain">{</code></div><div class="line number14 index13 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">$(</code><code class="js string">"div#msg&nbsp;p"</code><code class="js plain">).html(msg);</code></div><div class="line number15 index14 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">}</code></div><div class="line number16 index15 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">}</code></div><div class="line number17 index16 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">});</code></div><div class="line number18 index17 alt1"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js keyword">return</code>&nbsp;<code class="js keyword">false</code><code class="js plain">;</code></div><div class="line number19 index18 alt2"><code class="js spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="js plain">});</code></div><div class="line number20 index19 alt1"><code class="js plain">});</code></div></div></td></tr></tbody></table><table border="0" cellpadding="0" cellspacing="0" class="syntaxhighlighter  html"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="html spaces">&nbsp;</code><code class="html plain">&lt;</code><code class="html keyword">div</code>&nbsp;<code class="html color1">id</code><code class="html plain">=</code><code class="html string">"header"</code><code class="html plain">&gt;</code></div><div class="line number2 index1 alt1"><code class="html spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="html plain">&lt;</code><code class="html keyword">div</code>&nbsp;<code class="html color1">id</code><code class="html plain">=</code><code class="html string">"content"</code><code class="html plain">&gt;</code></div><div class="line number3 index2 alt2"><code class="html spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="html plain">&lt;</code><code class="html keyword">img</code>&nbsp;<code class="html color1">src</code><code class="html plain">=</code><code class="html string">"/blog/img/avatar/skyside.png"</code>&nbsp;<code class="html color1">alt</code><code class="html plain">=</code><code class="html string">""</code>&nbsp;<code class="html plain">/&gt;</code></div><div class="line number4 index3 alt1"><code class="html spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="html plain">&lt;</code><code class="html keyword">p</code><code class="html plain">&gt;后台登陆&lt;/</code><code class="html keyword">p</code><code class="html plain">&gt;</code></div><div class="line number5 index4 alt2"><code class="html spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="html plain">&lt;/</code><code class="html keyword">div</code><code class="html plain">&gt;</code></div><div class="line number6 index5 alt1"><code class="html spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="html plain">&lt;/</code><code class="html keyword">div</code><code class="html plain">&gt;</code></div></div></td></tr></tbody></table><p>&nbsp; &nbsp;测试结束。</p><div id="addition"><a href="http://localhost/blog/sort.php?key=keywords&amp;value=%E6%B5%8B%E8%AF%95" class="keyword">测试 +</a><a href="http://localhost/blog/sort.php?key=keywords&amp;value=%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE" class="keyword">代码高亮 +</a></div><div id="like">
+<div id="like-button" data-id="2016070801"><i class="icon-good"></i>支持<span id="likes-count">87</span></div><p id="thanks" fav="0"></p></div></div><div id="list"><ul id="list_nav"><li class="similar now">相关文章
+</li><li class="popular">热门文章</li><li class="recommended">推荐文章</li></ul><ul class="show sublist similar"><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/08/head_pic_upload.html">文章头图上传功能成功啦</a></li><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/08/x.html">成功的一次头图上传</a></li><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/08/pic_upload.html">测试图片上传</a></li><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/08/new_test.html">新测试文章</a></li><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/08/test2.html">测试文章</a></li></ul><ul class="sublist popular"><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/07/code_highlight.html">测试代码高亮功能</a></li><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/07/new_style.html">新样式测试</a></li><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/08/0816.html">今天8月16</a></li><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/07/test2.html">第二次测试静态生成文章</a></li><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/08/head_pic_upload.html">文章头图上传功能成功啦</a></li></ul><ul class="sublist recommended"><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/07/code_highlight.html">测试代码高亮功能</a></li><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/07/2016070201.html">新测试</a></li><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/07/new_style.html">新样式测试</a></li><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/08/0816.html">今天8月16</a></li><li><i class="icon-link"></i><a href="http://localhost/blog/page/2016/08/test2.html">测试文章</a></li></ul></div></div><div id="comment"><h1>评论</h1>
+<form id="comment_form"><p id="tips">&lt;(￣v￣)/点击头像<br>可以更换头像</p><div class="pic">
+<div class="mask"><i class="icon-loop"></i></div><img src="./测试代码高亮功能 -天边的博客_files/6.jpg" name="avatar" id="photo"></div>
+<input type="text" id="nickname" name="nickname" placeholder="昵称"><textarea placeholder="评论..." name="content"></textarea><div id="toolbar"><i class="icon-sentiment_satisfied" id="face"></i><div id="emoji_list"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/smile.png" data-emoji="smile"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/soso.png" data-emoji="soso"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/grin.png" data-emoji="grin"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/happy.png" data-emoji="happy"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/muse.png" data-emoji="muse"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/shock.png" data-emoji="shock"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/cold.png" data-emoji="cold"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/careless.png" data-emoji="careless"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/cry.png" data-emoji="cry"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/eye.png" data-emoji="eye"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/cool.png" data-emoji="cool"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/fear.png" data-emoji="fear"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/sweat.png" data-emoji="sweat"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/xx.png" data-emoji="xx"><img class="emoji" src="./测试代码高亮功能 -天边的博客_files/lol.png" data-emoji="lol"></div></div><input type="hidden" name="pic" value="http://localhost/blog/img/avatar/6.jpg">
+<input type="hidden" name="article_id" value="2016070801"><input type="hidden" id="comment_parent" name="comment_parent">
+<input type="hidden" name="comment_html" id="comment_html">
+<button type="submit">发表</button>
+<div id="result"></div>
+</form><div id="comment_list"><div class="user_comment " id="comment222" name="comment222"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/4.jpg" name="avatar"></div><div class="wrapper"><span>Lydia</span><span class="time">2016-07-21 16:21:14</span><p class="comment_content">最爱你夕阳下的身影。</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="222" data-user="Lydia">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="222" data-user="Lydia" data-parent="222"><i class="icon-undo"></i>回复</a></div><div class="comment_actions show"><p>9#</p></div></div><div class="user_comment " id="comment221" name="comment221"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>刘大帅</span><span class="time">2016-07-21 16:16:51</span><p class="comment_content">尼玛。。。。再也不给这评论部分加需求了，累死爹了！！！</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="221" data-user="刘大帅">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="221" data-user="刘大帅" data-parent="221"><i class="icon-undo"></i>回复</a></div><div class="comment_actions show"><p>8#</p></div></div><div class="user_comment " id="comment191" name="comment191"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/5.jpg" name="avatar"></div><div class="wrapper"><span>若轩</span><span class="time">2016-07-19 22:38:23</span><p class="comment_content">明天去哪里玩呢？</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="191" data-user="若轩">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="191" data-user="若轩" data-parent="191"><i class="icon-undo"></i>回复</a></div><div class="comment_actions show"><p>7#</p></div></div><div class="user_comment " id="comment189" name="comment189"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/3.jpg" name="avatar"></div><div class="wrapper"><span>冬眠</span><span class="time">2016-07-19 20:32:41</span><p class="comment_content">睡了吗？</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="189" data-user="冬眠">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="189" data-user="冬眠" data-parent="189"><i class="icon-undo"></i>回复</a></div><div class="comment_actions show"><p>6#</p></div></div><div class="user_comment " id="comment178" name="comment178"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/2.jpg" name="avatar"></div><div class="wrapper"><span>小婊砸</span><span class="time">2016-07-19 17:32:23</span><p class="comment_content">我是小婊砸。</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="178" data-user="小婊砸">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="178" data-user="小婊砸" data-parent="178"><i class="icon-undo"></i>回复</a></div><div class="comment_actions show"><p>5#</p></div></div><div class="user_comment " id="comment177" name="comment177"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/1.jpg" name="avatar"></div><div class="wrapper"><span>大表哥</span><span class="time">2016-07-19 17:26:32</span><p class="comment_content">我是大表哥。</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="177" data-user="大表哥">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="177" data-user="大表哥" data-parent="177"><i class="icon-undo"></i>回复</a></div><div class="comment_actions show"><p>4#</p></div></div><div class="user_comment " id="comment69" name="comment69"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>我是大哥</span><span class="time">2016-07-17 00:26:02</span><p class="comment_content">我是大哥。</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="69" data-user="我是大哥">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="69" data-user="我是大哥" data-parent="69"><i class="icon-undo"></i>回复</a></div><div class="comment_actions show"><p>3#</p></div></div><div class="user_comment children" id="comment109" name="comment109"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>我是二哥</span><span class="time">2016-07-17 18:30:53</span><p class="comment_content">回复<a><span>@我是大哥</span></a>：我是二哥</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="109" data-user="我是二哥">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="109" data-user="我是二哥" data-parent="69"><i class="icon-undo"></i>回复</a></div></div><div class="user_comment children" id="comment110" name="comment110"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>我是三哥</span><span class="time">2016-07-17 18:33:48</span><p class="comment_content">回复<a href="http://localhost/blog/page/2016/07/code_highlight.html#comment109"><span>@我是二哥</span></a>：我是三哥</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="110" data-user="我是三哥">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="110" data-user="我是三哥" data-parent="69"><i class="icon-undo"></i>回复</a></div></div><div class="user_comment children" id="comment111" name="comment111"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>我是四哥</span><span class="time">2016-07-17 18:35:23</span><p class="comment_content">回复<a href="http://localhost/blog/page/2016/07/code_highlight.html#comment110"><span>@我是三哥</span></a>：我是四哥</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="111" data-user="我是四哥">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="111" data-user="我是四哥" data-parent="69"><i class="icon-undo"></i>回复</a></div></div><div class="user_comment children" id="comment112" name="comment112"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>我是五哥</span><span class="time">2016-07-17 18:38:49</span><p class="comment_content">回复<a href="http://localhost/blog/page/2016/07/code_highlight.html#comment111"><span>@我是四哥</span></a>：我是五哥</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="112" data-user="我是五哥">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="112" data-user="我是五哥" data-parent="69"><i class="icon-undo"></i>回复</a></div></div><div class="user_comment children" id="comment113" name="comment113"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>我是N哥</span><span class="time">2016-07-17 18:45:56</span><p class="comment_content">回复<a href="http://localhost/blog/page/2016/07/code_highlight.html#comment112"><span>@我是五哥</span></a>：像我这么屌的还有一打！！！</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="113" data-user="我是N哥">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="113" data-user="我是N哥" data-parent="69"><i class="icon-undo"></i>回复</a></div></div><div class="user_comment " id="comment12" name="comment12"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>小飞飞</span><span class="time">2016-07-15 22:29:55</span><p class="comment_content">我喜欢阿心</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="12" data-user="小飞飞">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="12" data-user="小飞飞" data-parent="12"><i class="icon-undo"></i>回复</a></div><div class="comment_actions show"><p>2#</p></div></div><div class="user_comment children" id="comment21" name="comment21"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>阿心</span><span class="time">2016-07-16 18:41:09</span><p class="comment_content">回复<a href="http://localhost/blog/page/2016/07/code_highlight.html#comment12"><span>@小飞飞</span></a>：我也喜欢你，我们在一起吧，会幸福的。</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="21" data-user="阿心">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="21" data-user="阿心" data-parent="12"><i class="icon-undo"></i>回复</a></div></div><div class="user_comment children" id="comment22" name="comment22"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>大心心</span><span class="time">2016-07-16 18:50:06</span><p class="comment_content">回复<a href="http://localhost/blog/page/2016/07/code_highlight.html#comment21"><span>@阿心</span></a>：可是我喜欢你，你不要喜欢他好吗？</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="22" data-user="大心心">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="22" data-user="大心心" data-parent="12"><i class="icon-undo"></i>回复</a></div></div><div class="user_comment children" id="comment33" name="comment33"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>小心心</span><span class="time">2016-07-16 22:26:44</span><p class="comment_content">回复<a href="http://localhost/blog/page/2016/07/code_highlight.html#comment22"><span>@大心心</span></a>：你喜欢他，可是我喜欢你啊。</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="33" data-user="小心心">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="33" data-user="小心心" data-parent="12"><i class="icon-undo"></i>回复</a></div></div><div class="user_comment children" id="comment34" name="comment34"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>阿心</span><span class="time">2016-07-16 22:31:42</span><p class="comment_content">回复<a href="http://localhost/blog/page/2016/07/code_highlight.html#comment22"><span>@大心心</span></a>：我不喜欢你，别追我了。</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="34" data-user="阿心">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="34" data-user="阿心" data-parent="12"><i class="icon-undo"></i>回复</a></div></div><div class="user_comment children" id="comment43" name="comment43"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>新心</span><span class="time">2016-07-16 22:59:15</span><p class="comment_content">回复<a href="http://localhost/blog/page/2016/07/code_highlight.html#comment12"><span>@小飞飞</span></a>：我也喜欢你。</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="43" data-user="新心">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="43" data-user="新心" data-parent="12"><i class="icon-undo"></i>回复</a></div></div><div class="user_comment children" id="comment51" name="comment51"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>小甜甜</span><span class="time">2016-07-16 23:18:01</span><p class="comment_content">回复<a href="http://localhost/blog/page/2016/07/code_highlight.html#comment21"><span>@阿心</span></a>：我爱你。</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="51" data-user="小甜甜">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="51" data-user="小甜甜" data-parent="12"><i class="icon-undo"></i>回复</a></div></div><div class="user_comment children" id="comment52" name="comment52"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>阿心</span><span class="time">2016-07-16 23:18:20</span><p class="comment_content">回复<a href="http://localhost/blog/page/2016/07/code_highlight.html#comment12"><span>@小飞飞</span></a>：我对你的忠贞不渝。</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="52" data-user="阿心">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="52" data-user="阿心" data-parent="12"><i class="icon-undo"></i>回复</a></div></div><div class="user_comment " id="comment10" name="comment10"><div class="pic"><img src="./测试代码高亮功能 -天边的博客_files/7.jpg" name="avatar"></div><div class="wrapper"><span>刘明皓</span><span class="time">2016-07-15 19:18:45</span><p class="comment_content">奇迹在天边。</p></div><div class="comment_actions"><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="call" data-id="10" data-user="刘明皓">@TA</a><a href="http://localhost/blog/page/2016/07/code_highlight.html#comment_form" class="reply" data-id="10" data-user="刘明皓" data-parent="10"><i class="icon-undo"></i>回复</a></div><div class="comment_actions show"><p>1#</p></div></div></div></div><div id="choose"><div id="choices"><div id="avatar_pics"></div>
+<div id="button"><div id="true">确认</div></div></div><div id="cancel"><i class="icon-cancel"></i></div></div>
+<div id="big_mask"></div><script>
+    uParse('#content',{
+    });
+    </script>
+    <script src="./测试代码高亮功能 -天边的博客_files/jquery.js"></script>
+    <script src="./测试代码高亮功能 -天边的博客_files/article.js"></script>
+
+
+    <div id="toTop" style="opacity: 0;"><i class="icon-fold"></i></div></body></html>
